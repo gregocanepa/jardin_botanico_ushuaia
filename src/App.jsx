@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Station from './pages/Station.jsx'
 import NotFound from './pages/NotFound.jsx'
+import OfflineBanner from './components/OfflineBanner.jsx'
 
 export default function App() {
   return (
