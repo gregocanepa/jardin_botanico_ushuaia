@@ -14,7 +14,7 @@
       "floracion": "Varía por especie"
     },
     "tags": ["Epífitas", "Polinización específica", "Larga vida", "Flores simétricas"],
-    "audio": "/public/audio/cactaceas.mp4",
+    "audio": "/audio/cactaceas.mp4",
     "audioDuration": "2:34",
     "images": [
       "/assets/images/orquideas-1.jpg",
@@ -40,7 +40,7 @@
       "floracion": "Primavera - verano"
     },
     "tags": ["Suculentas", "Resistentes", "Nativas de América", "Espinas protectoras"],
-    "audio": "/public/audio/cactaceas.mp4",
+    "audio": "/audio/cactaceas.mp4",
     "audioDuration": "2:10",
     "images": [
       "/assets/images/cactaceas-1.jpg"
