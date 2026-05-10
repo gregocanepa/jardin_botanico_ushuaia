@@ -34,3 +34,6 @@ pnpm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# claude local files
+.claude/
