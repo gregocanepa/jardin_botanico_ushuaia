@@ -1,0 +1,43 @@
+/* ── Variables ────────────────────────────────────── */
+:root {
+  --color-bg:         #F5EDE0;
+  --color-surface:    #FFFFFF;
+  --color-primary:    #854F0B;
+  --color-primary-dk: #633806;
+  --color-accent:     #C8A96E;
+  --color-sage:       #4A6741;
+  --color-sage-lt:    #7A9E6E;
+  --color-text:       #2C1A0E;
+  --color-text-muted: #8A7060;
+  --color-border:     #E8DECE;
+  --radius-sm:        8px;
+  --radius-md:        12px;
+  --radius-lg:        20px;
+  --font:             -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Reset ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100dvh;
+  /* Evita scroll horizontal en mobile */
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--color-surface);
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+img { max-width: 100%; display: block; }

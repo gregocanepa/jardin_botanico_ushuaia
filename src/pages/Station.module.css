@@ -1,0 +1,163 @@
+.page { min-height: 100dvh; padding-bottom: 2rem; }
+
+.loading, .error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60dvh;
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 1.25rem;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.back {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.progress {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.hero {
+  background: #4a3728;
+  min-height: 160px;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem 1.25rem 1rem;
+}
+
+.heroContent { width: 100%; }
+
+.badge {
+  display: inline-block;
+  background: #C8A96E;
+  color: #2d1f0e;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+
+.name {
+  color: #F5EDE0;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.sci {
+  color: #C8A96E;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.section {
+  padding: 1rem 1.25rem;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.body {
+  font-size: 14px;
+  color: #5a4535;
+  line-height: 1.75;
+}
+
+.factsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.factCard {
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+.factLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.factValue {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: #FAEEDA;
+  color: var(--color-primary-dk);
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.links { display: flex; flex-direction: column; gap: 8px; }
+
+.linkItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.navBar {
+  display: flex;
+  gap: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.btnPrimary {
+  flex: 1;
+  background: var(--color-primary);
+  color: #FAEEDA;
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.btnPrimary:hover { background: var(--color-primary-dk); }
+
+.btnSecondary {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-size: 14px;
+}

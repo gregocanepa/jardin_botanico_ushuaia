@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "slug": "orquideas",
+    "order": 1,
+    "name": "Orquídeas",
+    "scientificName": "Familia Orchidaceae",
+    "shortDescription": "Una de las familias de plantas con flores más diversas del planeta.",
+    "description": "Las orquídeas son una de las familias de plantas con flores más diversas del planeta, con más de 28.000 especies reconocidas. Se adaptan a casi todos los hábitats terrestres, desde selvas tropicales hasta estepas frías. Su relación con los polinizadores es extraordinariamente específica: muchas especies han evolucionado para atraer a un único insecto.",
+    "facts": {
+      "familia": "Orchidaceae",
+      "especies": "+28.000",
+      "habitat": "Tropical y templado",
+      "floracion": "Varía por especie"
+    },
+    "tags": ["Epífitas", "Polinización específica", "Larga vida", "Flores simétricas"],
+    "audio": "/public/audio/cactaceas.mp4",
+    "audioDuration": "2:34",
+    "images": [
+      "/assets/images/orquideas-1.jpg",
+      "/assets/images/orquideas-2.jpg"
+    ],
+    "links": [
+      { "label": "Wikipedia — Orchidaceae", "url": "https://es.wikipedia.org/wiki/Orchidaceae" },
+      { "label": "iNaturalist — observaciones", "url": "https://www.inaturalist.org/taxa/47217-Orchidaceae" }
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "cactaceas",
+    "order": 2,
+    "name": "Cactáceas",
+    "scientificName": "Familia Cactaceae",
+    "shortDescription": "Maestras de la supervivencia en ambientes extremadamente secos.",
+    "description": "Las cactáceas son plantas suculentas adaptadas a la vida en condiciones de escasez hídrica. Sus tallos carnosos almacenan agua, mientras que sus espinas — hojas modificadas — reducen la pérdida de humedad y disuaden a los herbívoros. La mayoría son nativas de América, con especial diversidad en México y Argentina.",
+    "facts": {
+      "familia": "Cactaceae",
+      "especies": "+1.700",
+      "habitat": "Zonas áridas y semiáridas",
+      "floracion": "Primavera - verano"
+    },
+    "tags": ["Suculentas", "Resistentes", "Nativas de América", "Espinas protectoras"],
+    "audio": "/public/audio/cactaceas.mp4",
+    "audioDuration": "2:10",
+    "images": [
+      "/assets/images/cactaceas-1.jpg"
+    ],
+    "links": [
+      { "label": "Wikipedia — Cactaceae", "url": "https://es.wikipedia.org/wiki/Cactaceae" },
+      { "label": "iNaturalist — observaciones", "url": "https://www.inaturalist.org/taxa/47855-Cactaceae" }
+    ]
+  }
+]

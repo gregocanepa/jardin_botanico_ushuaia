@@ -1,0 +1,105 @@
+.page { min-height: 100dvh; }
+
+.header {
+  background: var(--color-sage);
+  padding: 2rem 1.25rem 1.5rem;
+}
+
+.title {
+  color: #F5EDE0;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #A8C99A;
+  font-size: 13px;
+}
+
+.mapPlaceholder {
+  background: #E8F0E4;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--color-sage);
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.mapPlaceholder p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.list { padding: 1rem 0; }
+
+.listLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 1.25rem;
+  margin-bottom: 8px;
+}
+
+.stationItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 1.25rem;
+  border-bottom: 0.5px solid var(--color-border);
+  text-align: left;
+  transition: background 0.1s;
+}
+.stationItem:hover { background: var(--color-bg); }
+
+.stationNum {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #FAEEDA;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stationInfo { flex: 1; min-width: 0; }
+
+.stationName {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.stationSci {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.stationDesc {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.arrow {
+  font-size: 20px;
+  color: var(--color-border);
+  margin-top: 2px;
+}
