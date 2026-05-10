@@ -8,6 +8,7 @@ import OfflineBanner from './components/OfflineBanner.jsx'
 export default function App() {
   return (
     <LanguageProvider>
+      <OfflineBanner />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/estacion/:slug" element={<Station />} />
