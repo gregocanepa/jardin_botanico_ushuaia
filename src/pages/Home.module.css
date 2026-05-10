@@ -5,11 +5,17 @@
   padding: 2rem 1.25rem 1.5rem;
 }
 
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
 .title {
   color: #F5EDE0;
   font-size: 26px;
   font-weight: 500;
-  margin-bottom: 4px;
 }
 
 .subtitle {

@@ -1,6 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useStation, useAllStations } from '../hooks/useStation'
+import { useLang } from '../context/LanguageContext'
+import { strings } from '../i18n/strings'
 import AudioPlayer from '../components/AudioPlayer.jsx'
+import LanguageToggle from '../components/LanguageToggle'
 import styles from './Station.module.css'
 
 export default function Station() {
@@ -8,13 +11,14 @@ export default function Station() {
   const navigate = useNavigate()
   const { station, loading, error } = useStation(slug)
   const { stations } = useAllStations()
+  const { lang } = useLang()
+  const s = strings[lang]
 
-  if (loading) return <div className={styles.loading}>Cargando...</div>
+  if (loading) return <div className={styles.loading}>{s.loading}</div>
   if (error)   return <div className={styles.error}>{error}</div>
 
-  const currentIndex = stations.findIndex(s => s.slug === slug)
+  const currentIndex = stations.findIndex(st => st.slug === slug)
   const nextStation  = stations[currentIndex + 1] ?? null
-  const prevStation  = stations[currentIndex - 1] ?? null
 
   return (
     <div className={styles.page}>
@@ -22,17 +26,18 @@ export default function Station() {
       {/* Nav */}
       <nav className={styles.nav}>
         <button className={styles.back} onClick={() => navigate('/')}>
-          ← Recorrido
+          {s.back}
         </button>
         <span className={styles.progress}>
-          Estación {station.order} de {stations.length}
+          {s.stationOf(station.order, stations.length)}
         </span>
+        <LanguageToggle />
       </nav>
 
       {/* Hero */}
       <header className={styles.hero}>
         <div className={styles.heroContent}>
-          <span className={styles.badge}>Estación {station.order}</span>
+          <span className={styles.badge}>{s.stationLabel} {station.order}</span>
           <h1 className={styles.name}>{station.name}</h1>
           <p className={styles.sci}>{station.scientificName}</p>
         </div>
@@ -40,23 +45,23 @@ export default function Station() {
 
       {/* Audio */}
       <section className={styles.section}>
-        <p className={styles.label}>Guía de audio</p>
-        <AudioPlayer src={station.audio} duration={station.audioDuration} />
+        <p className={styles.label}>{s.audioGuide}</p>
+        <AudioPlayer src={station.audio} duration={station.audioDuration} label={s.narration} />
       </section>
 
       {/* Descripción */}
       <section className={styles.section}>
-        <p className={styles.label}>Sobre esta planta</p>
+        <p className={styles.label}>{s.about}</p>
         <p className={styles.body}>{station.description}</p>
       </section>
 
       {/* Facts */}
       <section className={styles.section}>
-        <p className={styles.label}>Datos</p>
+        <p className={styles.label}>{s.data}</p>
         <div className={styles.factsGrid}>
           {Object.entries(station.facts).map(([key, val]) => (
             <div key={key} className={styles.factCard}>
-              <p className={styles.factLabel}>{key.charAt(0).toUpperCase() + key.slice(1)}</p>
+              <p className={styles.factLabel}>{s.factLabels[key] || key}</p>
               <p className={styles.factValue}>{val}</p>
             </div>
           ))}
@@ -65,7 +70,7 @@ export default function Station() {
 
       {/* Tags */}
       <section className={styles.section}>
-        <p className={styles.label}>Características</p>
+        <p className={styles.label}>{s.features}</p>
         <div className={styles.tags}>
           {station.tags.map(tag => (
             <span key={tag} className={styles.tag}>{tag}</span>
@@ -76,7 +81,7 @@ export default function Station() {
       {/* Links */}
       {station.links?.length > 0 && (
         <section className={styles.section}>
-          <p className={styles.label}>Referencias</p>
+          <p className={styles.label}>{s.references}</p>
           <div className={styles.links}>
             {station.links.map(link => (
               <a
@@ -100,21 +105,21 @@ export default function Station() {
           className={styles.btnSecondary}
           onClick={() => navigate('/')}
         >
-          Mapa
+          {s.map}
         </button>
         {nextStation ? (
           <button
             className={styles.btnPrimary}
             onClick={() => navigate(`/estacion/${nextStation.slug}`)}
           >
-            Siguiente →
+            {s.next}
           </button>
         ) : (
           <button
             className={styles.btnPrimary}
             onClick={() => navigate('/')}
           >
-            Fin del recorrido
+            {s.end}
           </button>
         )}
       </div>
