@@ -1,0 +1,60 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--color-sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.fading { opacity: 0; }
+
+.content {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.title {
+  color: #F5EDE0;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.textEs {
+  color: #F5EDE0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.textEn {
+  color: rgba(245, 237, 224, 0.55);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.track {
+  width: 100%;
+  height: 3px;
+  background: rgba(245, 237, 224, 0.2);
+  border-radius: 2px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: #F5EDE0;
+  border-radius: 2px;
+  transition-property: width;
+  transition-timing-function: ease-out;
+}
