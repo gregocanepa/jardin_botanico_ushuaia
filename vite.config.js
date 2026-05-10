@@ -13,18 +13,18 @@ export default defineConfig({
       includeAssets: [
         'favicon.ico',
         'icons/*.png',
-        'audio/*.mp3',
-        'images/*.jpg',
-        'images/*.png',
-        'images/*.webp'
+        'audio/*.mp4',
+        'assets/images/*.jpg',
+        'assets/images/*.png',
+        'assets/images/*.webp'
       ],
 
       workbox: {
         // Archivos del build (JS/CSS/HTML) + archivos de public/
         globPatterns: [
           '**/*.{js,css,html,ico,png,svg}',
-          'audio/*.mp3',
-          'images/*.{jpg,png,webp}'
+          'audio/*.mp4',
+          'assets/images/*.{jpg,png,webp}'
         ],
 
         runtimeCaching: [
@@ -32,7 +32,7 @@ export default defineConfig({
             // Audios: cache-first con soporte de range requests.
             // El elemento <audio> usa range requests para el seek —
             // sin rangeRequests: true, avanzar en la barra falla offline.
-            urlPattern: /\/audio\/.+\.mp3$/i,
+            urlPattern: /\/audio\/.+\.(mp3|mp4)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'audio-cache',
@@ -45,7 +45,7 @@ export default defineConfig({
           },
           {
             // Imágenes: cache-first, sin necesidad de range requests
-            urlPattern: /\/images\/.+\.(jpg|jpeg|png|webp)$/i,
+            urlPattern: /\/assets\/images\/.+\.(jpg|jpeg|png|webp)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images-cache',
