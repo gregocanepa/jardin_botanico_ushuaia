@@ -6,15 +6,13 @@ import OfflineBanner from './components/OfflineBanner.jsx'
 
 export default function App() {
   return (
-    <Routes>
-      {/* Home screen: garden map and full station list */}
-      <Route path="/" element={<Home />} />
-
-      {/* Individual station page — accessed directly via QR code */}
-      {/* Example: /estacion/orquideas */}
-      <Route path="/estacion/:slug" element={<Station />} />
-
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <LanguageProvider>
+      <OfflineBanner />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/estacion/:slug" element={<Station />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </LanguageProvider>
   )
 }
