@@ -1,27 +1,35 @@
 import { useNavigate } from 'react-router-dom'
 import { useAllStations } from '../hooks/useStation'
+import { useLang } from '../context/LanguageContext'
+import { strings } from '../i18n/strings'
+import LanguageToggle from '../components/LanguageToggle'
 import styles from './Home.module.css'
 
 export default function Home() {
   const navigate = useNavigate()
   const { stations } = useAllStations()
+  const { lang } = useLang()
+  const s = strings[lang]
 
   return (
     <div className={styles.page}>
 
       <header className={styles.header}>
-        <h1 className={styles.title}>Jardín Botánico</h1>
-        <p className={styles.subtitle}>Recorrido autoguiado · {stations.length} estaciones</p>
+        <div className={styles.headerRow}>
+          <h1 className={styles.title}>Jardín Botánico</h1>
+          <LanguageToggle light />
+        </div>
+        <p className={styles.subtitle}>{s.subtitle} · {stations.length} {s.stations}</p>
       </header>
 
       {/* TODO: agregar mapa SVG o imagen del jardín aquí */}
       <div className={styles.mapPlaceholder}>
-        <span>Mapa del jardín</span>
-        <p>Próximamente</p>
+        <span>{s.mapPlaceholder}</span>
+        <p>{s.comingSoon}</p>
       </div>
 
       <section className={styles.list}>
-        <p className={styles.listLabel}>Estaciones del recorrido</p>
+        <p className={styles.listLabel}>{s.stationsList}</p>
         {stations.map(station => (
           <button
             key={station.id}

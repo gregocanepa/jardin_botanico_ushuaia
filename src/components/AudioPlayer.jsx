@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import styles from './AudioPlayer.module.css'
 
-export default function AudioPlayer({ src, duration }) {
+export default function AudioPlayer({ src, duration, label }) {
   const audioRef = useRef(null)
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -69,7 +69,7 @@ export default function AudioPlayer({ src, duration }) {
       </button>
 
       <div className={styles.info}>
-        <p className={styles.title}>Narración de la estación</p>
+        <p className={styles.title}>{label}</p>
         <div
           className={styles.track}
           onClick={seek}
