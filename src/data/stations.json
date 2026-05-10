@@ -3,18 +3,41 @@
     "id": 1,
     "slug": "orquideas",
     "order": 1,
-    "name": "Orquídeas",
-    "scientificName": "Familia Orchidaceae",
-    "shortDescription": "Una de las familias de plantas con flores más diversas del planeta.",
-    "description": "Las orquídeas son una de las familias de plantas con flores más diversas del planeta, con más de 28.000 especies reconocidas. Se adaptan a casi todos los hábitats terrestres, desde selvas tropicales hasta estepas frías. Su relación con los polinizadores es extraordinariamente específica: muchas especies han evolucionado para atraer a un único insecto.",
-    "facts": {
-      "familia": "Orchidaceae",
-      "especies": "+28.000",
-      "habitat": "Tropical y templado",
-      "floracion": "Varía por especie"
+    "name": {
+      "es": "Orquídeas",
+      "en": "Orchids"
     },
-    "tags": ["Epífitas", "Polinización específica", "Larga vida", "Flores simétricas"],
-    "audio": "/audio/cactaceas.mp4",
+    "scientificName": "Familia Orchidaceae",
+    "shortDescription": {
+      "es": "Una de las familias de plantas con flores más diversas del planeta.",
+      "en": "One of the most diverse flowering plant families on the planet."
+    },
+    "description": {
+      "es": "Las orquídeas son una de las familias de plantas con flores más diversas del planeta, con más de 28.000 especies reconocidas. Se adaptan a casi todos los hábitats terrestres, desde selvas tropicales hasta estepas frías. Su relación con los polinizadores es extraordinariamente específica: muchas especies han evolucionado para atraer a un único insecto.",
+      "en": "Orchids are one of the most diverse flowering plant families on the planet, with more than 28,000 recognized species. They adapt to almost all terrestrial habitats, from tropical rainforests to cold steppes. Their relationship with pollinators is extraordinarily specific: many species have evolved to attract a single insect."
+    },
+    "facts": {
+      "es": {
+        "familia": "Orchidaceae",
+        "especies": "+28.000",
+        "habitat": "Tropical y templado",
+        "floracion": "Varía por especie"
+      },
+      "en": {
+        "familia": "Orchidaceae",
+        "especies": "+28,000",
+        "habitat": "Tropical and temperate",
+        "floracion": "Varies by species"
+      }
+    },
+    "tags": {
+      "es": ["Epífitas", "Polinización específica", "Larga vida", "Flores simétricas"],
+      "en": ["Epiphytes", "Specific pollination", "Long-lived", "Symmetrical flowers"]
+    },
+    "audio": {
+      "es": "/audio/orquideas-es.mp4",
+      "en": "/audio/orquideas-en.mp4"
+    },
     "audioDuration": "2:34",
     "images": [
       "/assets/images/orquideas-1.jpg",
@@ -29,18 +52,41 @@
     "id": 2,
     "slug": "cactaceas",
     "order": 2,
-    "name": "Cactáceas",
-    "scientificName": "Familia Cactaceae",
-    "shortDescription": "Maestras de la supervivencia en ambientes extremadamente secos.",
-    "description": "Las cactáceas son plantas suculentas adaptadas a la vida en condiciones de escasez hídrica. Sus tallos carnosos almacenan agua, mientras que sus espinas — hojas modificadas — reducen la pérdida de humedad y disuaden a los herbívoros. La mayoría son nativas de América, con especial diversidad en México y Argentina.",
-    "facts": {
-      "familia": "Cactaceae",
-      "especies": "+1.700",
-      "habitat": "Zonas áridas y semiáridas",
-      "floracion": "Primavera - verano"
+    "name": {
+      "es": "Cactáceas",
+      "en": "Cacti"
     },
-    "tags": ["Suculentas", "Resistentes", "Nativas de América", "Espinas protectoras"],
-    "audio": "/audio/cactaceas.mp4",
+    "scientificName": "Familia Cactaceae",
+    "shortDescription": {
+      "es": "Maestras de la supervivencia en ambientes extremadamente secos.",
+      "en": "Masters of survival in extremely dry environments."
+    },
+    "description": {
+      "es": "Las cactáceas son plantas suculentas adaptadas a la vida en condiciones de escasez hídrica. Sus tallos carnosos almacenan agua, mientras que sus espinas — hojas modificadas — reducen la pérdida de humedad y disuaden a los herbívoros. La mayoría son nativas de América, con especial diversidad en México y Argentina.",
+      "en": "Cacti are succulent plants adapted to life in water-scarce conditions. Their fleshy stems store water, while their spines — modified leaves — reduce moisture loss and deter herbivores. Most are native to the Americas, with special diversity in Mexico and Argentina."
+    },
+    "facts": {
+      "es": {
+        "familia": "Cactaceae",
+        "especies": "+1.700",
+        "habitat": "Zonas áridas y semiáridas",
+        "floracion": "Primavera - verano"
+      },
+      "en": {
+        "familia": "Cactaceae",
+        "especies": "+1,700",
+        "habitat": "Arid and semi-arid zones",
+        "floracion": "Spring - summer"
+      }
+    },
+    "tags": {
+      "es": ["Suculentas", "Resistentes", "Nativas de América", "Espinas protectoras"],
+      "en": ["Succulents", "Hardy", "Native to the Americas", "Protective spines"]
+    },
+    "audio": {
+      "es": "/audio/cactaceas-es.mp4",
+      "en": "/audio/cactaceas-en.mp4"
+    },
     "audioDuration": "2:10",
     "images": [
       "/assets/images/cactaceas-1.jpg"

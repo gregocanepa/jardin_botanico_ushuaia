@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { LanguageProvider } from './context/LanguageContext'
 import Home from './pages/Home.jsx'
 import Station from './pages/Station.jsx'
 import NotFound from './pages/NotFound.jsx'

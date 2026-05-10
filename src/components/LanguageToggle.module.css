@@ -1,0 +1,35 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 0.5px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.active {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.sep {
+  color: var(--color-border);
+}
+
+/* Used on dark (sage) header backgrounds */
+.light {
+  color: rgba(245, 237, 224, 0.6);
+  border-color: rgba(245, 237, 224, 0.25);
+}
+
+.light .active {
+  color: #F5EDE0;
+}
+
+.light .sep {
+  color: rgba(245, 237, 224, 0.3);
+}
