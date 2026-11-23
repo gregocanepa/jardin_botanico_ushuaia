@@ -138,4 +138,59 @@ describe('AudioPlayer', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
+
+  describe('duration', () => {
+    function loadMetadata(audio, seconds) {
+      vi.spyOn(audio, 'duration', 'get').mockReturnValue(seconds)
+      act(() => { audio.dispatchEvent(new Event('loadedmetadata')) })
+    }
+
+    it('shows the duration from the JSON until the metadata loads', () => {
+      renderPlayer({ duration: '2:34' })
+      expect(screen.getByText('2:34')).toBeInTheDocument()
+    })
+
+    it('replaces the JSON duration with the real one on loadedmetadata', () => {
+      const { audio } = renderPlayer({ duration: '2:34' })
+
+      loadMetadata(audio, 9.11)
+
+      expect(screen.getByText('0:09')).toBeInTheDocument()
+      expect(screen.queryByText('2:34')).not.toBeInTheDocument()
+    })
+
+    it('follows durationchange (e.g. Infinity first, real length later)', () => {
+      const { audio } = renderPlayer({ duration: '2:34' })
+      loadMetadata(audio, Infinity)
+      expect(screen.getByText('2:34')).toBeInTheDocument() // unknown yet: keep fallback
+
+      vi.spyOn(audio, 'duration', 'get').mockReturnValue(73)
+      act(() => { audio.dispatchEvent(new Event('durationchange')) })
+
+      expect(screen.getByText('1:13')).toBeInTheDocument()
+    })
+
+    it('ignores NaN/0 durations and keeps the fallback', () => {
+      const { audio } = renderPlayer({ duration: '2:34' })
+      loadMetadata(audio, NaN)
+      loadMetadata(audio, 0)
+      expect(screen.getByText('2:34')).toBeInTheDocument()
+    })
+
+    it('goes back to the new fallback when src changes', () => {
+      const { audio, rerender } = renderPlayer({ duration: '2:34' })
+      loadMetadata(audio, 9.11)
+      vi.spyOn(audio, 'duration', 'get').mockReturnValue(NaN) // new src: length unknown
+
+      rerender(<AudioPlayer src="/audio/b.mp4" duration="2:10" label="Narration" />)
+
+      expect(screen.getByText('2:10')).toBeInTheDocument()
+      expect(screen.queryByText('0:09')).not.toBeInTheDocument()
+    })
+
+    it('loads only the metadata up front, not the whole file', () => {
+      const { audio } = renderPlayer()
+      expect(audio).toHaveAttribute('preload', 'metadata')
+    })
+  })
 })
