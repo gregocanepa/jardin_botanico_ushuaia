@@ -16,6 +16,10 @@ export default function AudioPlayer({ src, duration, label, errorText }) {
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState('0:00')
   const [error, setError] = useState(false)
+  // Real length of the file, read from its metadata. `duration` (audioDuration
+  // in stations.json) is only shown until the metadata arrives — e.g. on iOS,
+  // which ignores preload="metadata" and only loads the file on play.
+  const [realDuration, setRealDuration] = useState(null)
 
   useEffect(() => {
     // New src (another station, or a language switch): start from scratch.
@@ -23,9 +27,16 @@ export default function AudioPlayer({ src, duration, label, errorText }) {
     setProgress(0)
     setCurrentTime('0:00')
     setError(false)
+    setRealDuration(null)
 
     const audio = audioRef.current
     if (!audio) return
+
+    // Infinity/NaN until the browser knows the length: keep the fallback.
+    const readDuration = () => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) setRealDuration(audio.duration)
+    }
+    readDuration() // metadata may already be loaded
 
     const onTimeUpdate = () => {
       const pct = (audio.currentTime / audio.duration) * 100
@@ -47,12 +58,16 @@ export default function AudioPlayer({ src, duration, label, errorText }) {
       setError(true)
     }
 
+    audio.addEventListener('loadedmetadata', readDuration)
+    audio.addEventListener('durationchange', readDuration)
     audio.addEventListener('timeupdate', onTimeUpdate)
     audio.addEventListener('playing', onPlaying)
     audio.addEventListener('pause', onPause)
     audio.addEventListener('ended', onEnded)
     audio.addEventListener('error', onError)
     return () => {
+      audio.removeEventListener('loadedmetadata', readDuration)
+      audio.removeEventListener('durationchange', readDuration)
       audio.removeEventListener('timeupdate', onTimeUpdate)
       audio.removeEventListener('playing', onPlaying)
       audio.removeEventListener('pause', onPause)
@@ -91,8 +106,9 @@ export default function AudioPlayer({ src, duration, label, errorText }) {
 
   return (
     <div className={styles.player}>
-      {/* El audio solo se carga si hay un src real */}
-      {src && <audio ref={audioRef} src={src} preload="none" />}
+      {/* El audio solo se carga si hay un src real. preload="metadata" pide solo
+          la cabecera del archivo para mostrar la duración real antes de reproducir */}
+      {src && <audio ref={audioRef} src={src} preload="metadata" />}
 
       <button
         className={styles.playBtn}
@@ -119,7 +135,7 @@ export default function AudioPlayer({ src, duration, label, errorText }) {
         </div>
         <div className={styles.times}>
           <span>{currentTime}</span>
-          <span>{duration}</span>
+          <span>{realDuration !== null ? formatTime(realDuration) : duration}</span>
         </div>
         {error && errorText && (
           <p className={styles.error} role="alert">{errorText}</p>

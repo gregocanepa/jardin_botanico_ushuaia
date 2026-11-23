@@ -75,4 +75,17 @@ test.describe('after the first visit, offline', () => {
     await expect.poll(() => page.locator('audio').evaluate((a) => a.currentTime), { timeout: 5000 })
       .toBeGreaterThan(0.2)
   })
+
+  // The audioDuration in stations.json is only a fallback: the page shows the
+  // file's real length, read from its metadata before pressing play.
+  test('shows the real audio duration, not the one in the JSON', async ({ page }) => {
+    const station = byOrder[0]
+    await page.goto(`/estacion/${station.slug}`)
+    const seconds = await page.locator('audio').evaluate((a) => new Promise((resolve) => {
+      if (Number.isFinite(a.duration)) return resolve(a.duration)
+      a.addEventListener('loadedmetadata', () => resolve(a.duration), { once: true })
+    }))
+    const real = `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
+    await expect(page.getByText(real, { exact: true })).toBeVisible()
+  })
 })
