@@ -2,16 +2,30 @@ import { useMemo } from 'react'
 import stations from '../data/stations.json'
 import { useLang } from '../context/LanguageContext'
 
-function resolve(station, lang) {
-  return {
-    ...station,
-    name:             station.name[lang],
-    shortDescription: station.shortDescription[lang],
-    description:      station.description[lang],
-    facts:            station.facts[lang],
-    tags:             station.tags[lang],
-    audio:            station.audio[lang],
-  }
+export const DEFAULT_LANG = 'es'
+
+const TRANSLATED = ['name', 'shortDescription', 'description', 'facts', 'tags', 'audio']
+const EMPTY = { facts: {}, tags: [] } // so the page can still map over them
+
+const isMissing = (v) => v === undefined || v === null || v === ''
+
+/**
+ * Value of a translated field ({ es, en }) in `lang`, falling back to Spanish
+ * when the translation is missing — a gap in stations.json must never crash a page.
+ */
+function translate(station, field, lang) {
+  const value = station[field]
+  if (isMissing(value)) return EMPTY[field]
+  if (typeof value !== 'object' || Array.isArray(value)) return value // not translated
+  if (!isMissing(value[lang])) return value[lang]
+  if (import.meta.env.DEV) console.warn(`stations.json: "${station.slug}" has no ${field}.${lang}, using ${DEFAULT_LANG}`)
+  return isMissing(value[DEFAULT_LANG]) ? EMPTY[field] : value[DEFAULT_LANG]
+}
+
+export function resolve(station, lang) {
+  const resolved = { ...station }
+  for (const field of TRANSLATED) resolved[field] = translate(station, field, lang)
+  return resolved
 }
 
 /**

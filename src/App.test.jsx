@@ -73,7 +73,6 @@ describe('Language', () => {
   })
 
   it.todo('SW-016: updates <html lang> when switching language')
-  it.todo('SW-008: falls back to Spanish when a field is missing in English instead of crashing')
 })
 
 describe('Not found', () => {
