@@ -6,6 +6,12 @@ import { allAudio, precachedPaths } from './helpers.js'
 const AUDIO_DELAY_MS = 2500 // per file; Workbox downloads the precache one file at a time
 const banner = (page) => page.getByText('Descargando contenido para uso sin internet')
 
+/** The overlay shows up (a SW starts installing) and closes once everything is cached. */
+async function waitForDownload(page) {
+  await expect(banner(page)).toBeVisible()
+  await expect(banner(page)).toBeHidden({ timeout: 20_000 })
+}
+
 async function slowAudio(context, delay = AUDIO_DELAY_MS) {
   await context.route('**/audio/*', async (route) => {
     await new Promise((r) => setTimeout(r, delay))
@@ -52,7 +58,7 @@ test('a failed download shows an error with "Reintentar", never "ready"', async 
   // Retry with the connection back → downloads everything and closes.
   await context.unroute('**/audio/*')
   await page.getByRole('button', { name: /Reintentar/ }).click()
-  await expect(banner(page)).toBeHidden({ timeout: 20_000 })
+  await waitForDownload(page)
   const cached = await precachedPaths(page)
   for (const a of allAudio) expect(cached).toContain(a)
 })
@@ -68,7 +74,7 @@ test('the visitor can continue without waiting, and the overlay comes back next 
 
 test('second visit with everything cached: no overlay (QR deep link goes straight to the station)', async ({ page }) => {
   await page.goto('/')
-  await expect(banner(page)).toBeHidden({ timeout: 20_000 })
+  await waitForDownload(page)
   await page.goto('/estacion/orquideas')
   await expect(page.getByRole('heading', { level: 1, name: 'Orquídeas' })).toBeVisible()
   await expect(banner(page)).toBeHidden()

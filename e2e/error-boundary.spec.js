@@ -6,7 +6,9 @@ import { test, expect } from '@playwright/test'
 async function breakLanguage(page) {
   await page.goto('/')
   // Let the first-visit download finish, so its overlay doesn't cover the page
-  await expect(page.getByText('Descargando contenido para uso sin internet')).toBeHidden({ timeout: 20_000 })
+  const banner = page.getByText('Descargando contenido para uso sin internet')
+  await expect(banner).toBeVisible()
+  await expect(banner).toBeHidden({ timeout: 20_000 })
   await page.evaluate(() => localStorage.setItem('lang', 'fr'))
 }
 

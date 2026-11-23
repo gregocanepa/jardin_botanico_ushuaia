@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useStation, useAllStations } from '../hooks/useStation'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../i18n/strings'
+import NotFound from './NotFound.jsx'
 import AudioPlayer from '../components/AudioPlayer.jsx'
 import LanguageToggle from '../components/LanguageToggle'
 import styles from './Station.module.css'
@@ -15,7 +16,7 @@ export default function Station() {
   const s = strings[lang]
 
   if (loading) return <div className={styles.loading}>{s.loading}</div>
-  if (error)   return <div className={styles.error}>{error}</div>
+  if (error || !station) return <NotFound /> // unknown slug (old or mistyped QR)
 
   const currentIndex = stations.findIndex(st => st.slug === slug)
   const nextStation  = stations[currentIndex + 1] ?? null

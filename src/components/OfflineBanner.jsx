@@ -33,6 +33,11 @@ export default function OfflineBanner() {
   } = useRegisterSW({
     onRegisteredSW(_url, registration) {
       if (!registration) return
+      // First visit: show the overlay only once a SW is really installing.
+      // (No registration at all — dev server, blocked SW — means nothing to wait for.)
+      if ((registration.installing || registration.waiting) && statusRef.current === 'checking') {
+        setStatus('downloading')
+      }
       watchInstallFailure(registration, () => {
         if (statusRef.current === 'downloading' || statusRef.current === 'checking') setStatus('error')
       })
@@ -48,10 +53,7 @@ export default function OfflineBanner() {
     let cancelled = false
     ;(async () => {
       const registration = await navigator.serviceWorker.getRegistration()
-      if (!registration?.active) {
-        if (!cancelled) setStatus('downloading') // first visit
-        return
-      }
+      if (!registration?.active) return // first visit: onRegisteredSW decides
       const result = await getPrecacheStatus()
       if (cancelled) return
       if (!result || result.complete) setStatus('hidden')

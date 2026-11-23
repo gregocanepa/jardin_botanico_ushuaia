@@ -23,8 +23,9 @@ export function onPrecacheProgress(onProgress) {
   const handler = (event) => {
     if (event.data?.type === 'PRECACHE_PROGRESS') onProgress(event.data)
   }
-  navigator.serviceWorker.addEventListener('message', handler)
-  return () => navigator.serviceWorker.removeEventListener('message', handler)
+  const container = navigator.serviceWorker
+  container.addEventListener('message', handler)
+  return () => container.removeEventListener('message', handler)
 }
 
 /** Calls onFail() if the installing service worker dies (a file failed to download). */

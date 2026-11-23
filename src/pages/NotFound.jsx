@@ -1,18 +1,17 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import styles from './NotFound.module.css'
 
+// Unknown URL or station slug (e.g. an old or mistyped QR). Shown in both
+// languages: the visitor may have landed here before choosing one.
 export default function NotFound() {
-  const navigate = useNavigate()
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '70dvh', gap: '1rem', padding: '2rem', textAlign: 'center' }}>
-      <p style={{ fontSize: 48 }}>🌿</p>
-      <h1 style={{ fontSize: 20, fontWeight: 500 }}>Estación no encontrada</h1>
-      <p style={{ fontSize: 14, color: 'var(--color-text-muted)' }}>Esta página no existe o el QR puede estar desactualizado.</p>
-      <button
-        onClick={() => navigate('/')}
-        style={{ marginTop: '1rem', background: 'var(--color-primary)', color: '#FAEEDA', padding: '12px 24px', borderRadius: 'var(--radius-sm)', fontSize: 14 }}
-      >
-        Volver al recorrido
-      </button>
+    <div className={styles.wrap}>
+      <p className={styles.icon} aria-hidden="true">🌿</p>
+      <h1 className={styles.title}>Estación no encontrada</h1>
+      <p className={styles.titleEn} lang="en">Station not found</p>
+      <p className={styles.text}>Esta página no existe o el QR puede estar desactualizado.</p>
+      <p className={styles.text} lang="en">This page doesn't exist or the QR code may be out of date.</p>
+      <Link className={styles.primaryBtn} to="/">Ver todas las estaciones · See all stations</Link>
     </div>
   )
 }
