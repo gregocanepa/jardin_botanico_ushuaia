@@ -39,3 +39,7 @@ Thumbs.db
 .claude/
 # Wrangler local state
 .wrangler/
+
+# Test output
+test-results/
+playwright-report/
