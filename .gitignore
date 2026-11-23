@@ -37,3 +37,5 @@ Thumbs.db
 
 # claude local files
 .claude/
+# Wrangler local state
+.wrangler/
