@@ -76,6 +76,14 @@ memory-bank/          # Persistent context for Claude Code sessions
 - Caches are per browser: content cached in Chrome isn't available in another browser or a QR-scanner's in-app browser. Visitors must use the same browser for the entrance QR and station QRs
 - Test offline in a normal browser tab (not an installed app): load once, go offline, close/reopen the tab, deep-link to `/estacion/{slug}`
 
+## Testing
+- `npm test` — unit tests (Vitest + Testing Library, jsdom). Config: `vitest.config.js` (no PWA plugin; `virtual:pwa-register/react` is mocked in `src/test/`)
+- `npm run test:e2e` — E2E (Playwright) against the **production build** (`npm run build && vite preview` on :4173). Offline tests live in `e2e/offline.spec.js`
+- E2E uses **Google Chrome** (`channel: 'chrome'`), not Playwright's Chromium — Chromium has no AAC codec, so the `.mp4` narration can't play there
+- `src/data/stations.test.js` validates content: unique ids/slugs/order, URL-safe slugs, both languages, and that every audio/image path exists in `public/`
+- Known bugs not fixed yet are `it.todo` / `test.fixme` named with their task ID (e.g. `SW-007`). When fixing one, turn its test on
+- Every fix or feature should come with a test that fails without it
+
 ## What NOT to do
 - Do not move audio/images to `src/assets/` — paths break in production
 - Do not install UI libraries (MUI, Chakra, etc.) — use CSS Modules
