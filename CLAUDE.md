@@ -71,6 +71,7 @@ memory-bank/          # Persistent context for Claude Code sessions
 ### Offline behavior
 - Custom service worker in `src/sw.js` (vite-plugin-pwa `injectManifest`); the precache list is injected at build time from `injectManifest.globPatterns` in `vite.config.js`
 - Everything is **precached** on first visit: build files, audio and images. No runtime caches
+- Max **5 MB per precached file** (`MAX_PRECACHE_FILE_SIZE_MB` in `vite.config.js`, not an env var). A bigger file makes `npm run build` fail — re-export the audio (mono, lower bitrate) before raising the limit
 - Audio is served from the precache by a custom route that honours `Range` requests (206) — required for offline seek and for playback on iOS Safari. Do not remove it or register it after `precacheAndRoute`
 - SW is inactive in dev mode — always test offline with `npm run build && npm run preview`
 - Caches are per browser: content cached in Chrome isn't available in another browser or a QR-scanner's in-app browser. Visitors must use the same browser for the entrance QR and station QRs
