@@ -1,65 +1,130 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
+import {
+  getPrecacheStatus,
+  onPrecacheProgress,
+  watchInstallFailure,
+  retryDownload,
+} from '../offline/precacheStatus'
 import styles from './OfflineBanner.module.css'
 
-const DONE_KEY = 'offline-cached'
+// checking    → asking the SW whether everything is already cached (renders nothing)
+// downloading → first visit, files being cached (real progress)
+// error       → download failed or content missing from the cache
+// done        → verified complete: fill the bar, fade out
+// hidden      → nothing to show (all cached, unsupported, or dismissed)
 
 export default function OfflineBanner() {
-  const supported = 'serviceWorker' in navigator
-  const [show, setShow] = useState(supported && !localStorage.getItem(DONE_KEY))
-  const [progress, setProgress] = useState(0)
-  const [fast, setFast] = useState(false)
+  const supported = typeof navigator !== 'undefined' && 'serviceWorker' in navigator
+  const [status, setStatus] = useState(supported ? 'checking' : 'hidden')
+  const [progress, setProgress] = useState({ done: 0, total: 0 })
   const [fading, setFading] = useState(false)
-  const done = useRef(false)
+  const statusRef = useRef(status)
+  statusRef.current = status
 
-  const { offlineReady: [offlineReady] } = useRegisterSW()
-
-  // Animate to 75% slowly while SW is installing
+  // Listen for progress before the SW is registered, so no message is missed.
   useEffect(() => {
-    if (!show) return
-    const t = setTimeout(() => setProgress(75), 80)
-    return () => clearTimeout(t)
-  }, [show])
+    if (!supported) return
+    return onPrecacheProgress((p) => setProgress((prev) => (p.done > prev.done ? p : prev)))
+  }, [supported])
 
-  // Complete when SW reports all assets are cached
+  const {
+    offlineReady: [offlineReady],
+  } = useRegisterSW({
+    onRegisteredSW(_url, registration) {
+      if (!registration) return
+      watchInstallFailure(registration, () => {
+        if (statusRef.current === 'downloading' || statusRef.current === 'checking') setStatus('error')
+      })
+    },
+    onRegisterError() {
+      setStatus('hidden') // no offline support; the app still works online
+    },
+  })
+
+  // On load: is the content already cached? (second visit, QR deep link)
   useEffect(() => {
-    if (offlineReady) complete()
+    if (!supported) return
+    let cancelled = false
+    ;(async () => {
+      const registration = await navigator.serviceWorker.getRegistration()
+      if (!registration?.active) {
+        if (!cancelled) setStatus('downloading') // first visit
+        return
+      }
+      const result = await getPrecacheStatus()
+      if (cancelled) return
+      if (!result || result.complete) setStatus('hidden')
+      else if (registration.installing || registration.waiting) setStatus('downloading')
+      else setStatus('error') // SW active but files missing (e.g. evicted by the browser)
+    })()
+    return () => { cancelled = true }
+  }, [supported])
+
+  // The SW finished installing: verify before telling the visitor it's ready.
+  useEffect(() => {
+    if (!offlineReady) return
+    let cancelled = false
+    ;(async () => {
+      const result = await getPrecacheStatus()
+      if (cancelled) return
+      if (result?.complete) {
+        setProgress({ done: result.total, total: result.total })
+        setStatus('done')
+      } else {
+        setStatus('error')
+      }
+    })()
+    return () => { cancelled = true }
   }, [offlineReady])
 
-  // Fallback: dismiss after 20s if SW never responds
   useEffect(() => {
-    if (!show) return
-    const t = setTimeout(complete, 2700)
-    return () => clearTimeout(t)
-  }, [show])
+    if (status !== 'done') return
+    const fade = setTimeout(() => setFading(true), 700)
+    const hide = setTimeout(() => setStatus('hidden'), 1300)
+    return () => { clearTimeout(fade); clearTimeout(hide) }
+  }, [status])
 
-  function complete() {
-    if (done.current) return
-    done.current = true
-    setFast(true)
-    setProgress(100)
-    localStorage.setItem(DONE_KEY, '1')
-    setTimeout(() => setFading(true), 700)
-    setTimeout(() => setShow(false), 1300)
-  }
+  if (status === 'checking' || status === 'hidden') return null
 
-  if (!show) return null
+  const percent = status === 'done'
+    ? 100
+    : progress.total ? Math.round((progress.done / progress.total) * 100) : 0
 
   return (
     <div className={`${styles.overlay} ${fading ? styles.fading : ''}`}>
       <div className={styles.content}>
         <h1 className={styles.title}>Jardín Botánico</h1>
-        <p className={styles.textEs}>Descargando contenido para uso sin internet</p>
-        <p className={styles.textEn}>Downloading content for offline use</p>
-        <div className={styles.track}>
-          <div
-            className={styles.fill}
-            style={{
-              width: `${progress}%`,
-              transitionDuration: fast ? '0.35s' : '2.5s',
-            }}
-          />
-        </div>
+
+        {status === 'error' ? (
+          <>
+            <p className={styles.textEs} role="alert">No se pudo descargar todo el contenido para usar sin internet.</p>
+            <p className={styles.textEn}>Couldn't download all the content for offline use.</p>
+            <button className={styles.primaryBtn} onClick={retryDownload}>Reintentar · Retry</button>
+          </>
+        ) : (
+          <>
+            <p className={styles.textEs}>Descargando contenido para uso sin internet</p>
+            <p className={styles.textEn}>Downloading content for offline use</p>
+            <div
+              className={styles.track}
+              role="progressbar"
+              aria-label="Descarga · Download"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={percent}
+            >
+              <div className={styles.fill} style={{ width: `${percent}%` }} />
+            </div>
+            <p className={styles.percent}>{percent}%</p>
+          </>
+        )}
+
+        {status !== 'done' && (
+          <button className={styles.linkBtn} onClick={() => setStatus('hidden')}>
+            {status === 'error' ? 'Continuar igual · Continue anyway' : 'Continuar sin esperar · Continue without waiting'}
+          </button>
+        )}
       </div>
     </div>
   )

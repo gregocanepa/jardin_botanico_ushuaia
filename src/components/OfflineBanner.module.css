@@ -55,6 +55,35 @@
   height: 100%;
   background: #F5EDE0;
   border-radius: 2px;
-  transition-property: width;
-  transition-timing-function: ease-out;
+  transition: width 0.3s ease-out;
+}
+
+.percent {
+  color: rgba(245, 237, 224, 0.75);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.primaryBtn {
+  margin-top: 16px;
+  padding: 12px 24px;
+  min-height: 44px;
+  background: var(--color-bg);
+  color: var(--color-sage);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.linkBtn {
+  margin-top: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: rgba(245, 237, 224, 0.75);
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay, .fill { transition: none; }
 }
