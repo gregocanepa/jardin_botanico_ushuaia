@@ -1,11 +1,13 @@
 # Jardín Botánico — Self-Guided Tour App
 
 ## What this project is
-Offline PWA for self-guided tours in a botanic garden. Visitors scan QR codes at each station and access plant information, narrated audio, and photos. The app must work **without internet connection** once cached.
+Offline-capable web app for self-guided tours in a botanic garden. Visitors scan QR codes at each station and access plant information, narrated audio, and photos. The app must work **without internet connection** once cached.
+
+**Browser-only (for now):** the app is used in the phone's browser and is **not** an installable app — no "Add to Home Screen", no install prompt. The service worker is kept only for offline caching.
 
 ## Stack
 - **React 18** + **React Router 6** — page navigation
-- **Vite 5** + **vite-plugin-pwa** — build and service worker generation
+- **Vite 5** + **vite-plugin-pwa** — build and service worker generation (used for offline caching only, not installability)
 - **CSS Modules** — component-scoped styles (no Tailwind, no styled-components)
 - **Static JSON** — station content in `src/data/stations.json`
 - **No backend** — fully static frontend, deployed on Cloudflare Pages
@@ -24,7 +26,7 @@ src/
 public/
 ├── audio/            # .mp3 narration files (one per station)
 ├── images/           # Plant photos (naming: {slug}-1.jpg, {slug}-2.jpg)
-└── icons/            # PWA icons (icon-192.png, icon-512.png)
+└── icons/            # Favicon / apple-touch-icon (install icons not needed for now)
 
 memory-bank/          # Persistent context for Claude Code sessions
 ```
@@ -71,12 +73,15 @@ memory-bank/          # Persistent context for Claude Code sessions
 - Audio cached with `CacheFirst` + `rangeRequests: true` (required for offline seek)
 - Images cached with `CacheFirst`
 - SW is inactive in dev mode — always test offline with `npm run build && npm run preview`
+- Caches are per browser: content cached in Chrome isn't available in another browser or a QR-scanner's in-app browser. Visitors must use the same browser for the entrance QR and station QRs
+- Test offline in a normal browser tab (not an installed app): load once, go offline, close/reopen the tab, deep-link to `/estacion/{slug}`
 
 ## What NOT to do
 - Do not move audio/images to `src/assets/` — paths break in production
 - Do not install UI libraries (MUI, Chakra, etc.) — use CSS Modules
 - Do not add a backend — static-only by architectural decision
 - Do not switch to HashRouter — Cloudflare Pages supports BrowserRouter with redirects
+- Do not add install features (install prompt, `beforeinstallprompt`, splash screens, maskable icons, manifest polish) — the app is browser-only for now
 
 ## Deploy
 - Platform: **Cloudflare Pages**
