@@ -63,6 +63,11 @@ memory-bank/          # Persistent context for Claude Code sessions
 }
 ```
 
+### Error handling
+- `ErrorBoundary` (`src/components/ErrorBoundary.jsx`) wraps the app: a render error shows a bilingual fallback ("Algo salió mal" + "Volver al recorrido" / "Recargar") instead of a blank screen
+- The routes have their own boundary keyed by pathname (navigating clears the error); `OfflineBanner` has one with `fallback={null}` so a broken overlay never blocks the tour
+- The fallback must not depend on the router or `LanguageContext` (they may be what broke) — plain `<a href="/">`, both languages
+
 ### Routes
 - `/` → Home (station list + garden map)
 - `/estacion/:slug` → Individual station page
