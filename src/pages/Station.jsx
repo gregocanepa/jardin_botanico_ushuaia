@@ -47,7 +47,7 @@ export default function Station() {
       {/* Audio */}
       <section className={styles.section}>
         <p className={styles.label}>{s.audioGuide}</p>
-        <AudioPlayer src={station.audio} duration={station.audioDuration} label={s.narration} />
+        <AudioPlayer src={station.audio} duration={station.audioDuration} label={s.narration} errorText={s.audioError} />
       </section>
 
       {/* Descripción */}
