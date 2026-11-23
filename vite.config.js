@@ -2,6 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Tamaño máximo por archivo precacheado. Si un archivo lo supera, el build FALLA
+// (comportamiento de vite-plugin-pwa 2.x) en vez de dejarlo afuera del modo offline.
+// 5 MB ≈ 10 min de narración AAC mono a 64 kbps, ≈ 7 min a 96 kbps.
+// Si un audio no entra, revisar la exportación (mono, bitrate) antes de subir el límite.
+export const MAX_PRECACHE_FILE_SIZE_MB = 5
+
 export default defineConfig({
   plugins: [
     react(),
@@ -27,7 +33,8 @@ export default defineConfig({
           '**/*.{js,css,html,ico,png,svg}',
           'audio/*.mp4',
           'images/*.{jpg,jpeg,png,webp}'
-        ]
+        ],
+        maximumFileSizeToCacheInBytes: MAX_PRECACHE_FILE_SIZE_MB * 1024 * 1024
       },
 
       manifest: {
