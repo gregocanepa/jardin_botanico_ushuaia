@@ -14,9 +14,9 @@ export default defineConfig({
         'favicon.ico',
         'icons/*.png',
         'audio/*.mp4',
-        'assets/images/*.jpg',
-        'assets/images/*.png',
-        'assets/images/*.webp'
+        'images/*.{jpg,jpeg}',
+        'images/*.png',
+        'images/*.webp'
       ],
 
       workbox: {
@@ -24,7 +24,7 @@ export default defineConfig({
         globPatterns: [
           '**/*.{js,css,html,ico,png,svg}',
           'audio/*.mp4',
-          'assets/images/*.{jpg,png,webp}'
+          'images/*.{jpg,jpeg,png,webp}'
         ],
 
         runtimeCaching: [
@@ -45,7 +45,7 @@ export default defineConfig({
           },
           {
             // Imágenes: cache-first, sin necesidad de range requests
-            urlPattern: /\/assets\/images\/.+\.(jpg|jpeg|png|webp)$/i,
+            urlPattern: /\/images\/.+\.(jpg|jpeg|png|webp)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images-cache',

@@ -47,8 +47,8 @@ npm run preview   # Preview del build local
 ## Agregar una estación nueva
 
 1. Editá `src/data/stations.json` y agregá un objeto con la misma estructura que los existentes
-2. Subí el audio a `src/assets/audio/nombre-estacion.mp3`
-3. Subí las imágenes a `src/assets/images/`
+2. Subí el audio a `public/audio/{slug}-es.mp4` y `public/audio/{slug}-en.mp4`
+3. Subí las imágenes a `public/images/` (`{slug}-1.jpg`, `{slug}-2.jpg`…) y referencialas en el JSON como `/images/{slug}-1.jpg`
 4. El QR de esa estación debe apuntar a `/estacion/{slug}`
 
 ## Deploy en Cloudflare Pages
