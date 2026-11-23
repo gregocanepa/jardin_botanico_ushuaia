@@ -1,6 +1,6 @@
 // Routing, station rendering and language switching (jsdom, no service worker).
 import { describe, it, expect } from 'vitest'
-import { screen, within } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderApp } from './test/renderApp.jsx'
 import stations from './data/stations.json'
@@ -55,7 +55,6 @@ describe('Station page', () => {
     expect(screen.getByRole('button', { name: /Fin del recorrido/ })).toBeInTheDocument()
   })
 
-  it.todo('SW-007 / SW-042: unknown slug shows the bilingual NotFound page, not the debug text')
 })
 
 describe('Language', () => {
@@ -78,10 +77,27 @@ describe('Language', () => {
 })
 
 describe('Not found', () => {
-  it('unknown routes show the NotFound page with a way back', () => {
+  function expectNotFound() {
+    expect(screen.getByRole('heading', { level: 1, name: 'Estación no encontrada' })).toBeInTheDocument()
+    expect(screen.getByText('Station not found')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Ver todas las estaciones/ })).toHaveAttribute('href', '/')
+  }
+
+  it('unknown routes show the bilingual NotFound page with a way back', () => {
     renderApp('/no-existe')
-    const heading = screen.getByRole('heading', { level: 1 })
-    expect(heading).toHaveTextContent(/no encontrada/i)
-    expect(within(document.body).getByRole('button', { name: /Volver al recorrido/ })).toBeInTheDocument()
+    expectNotFound()
+  })
+
+  // SW-007: an old or mistyped QR used to show 'Station "x" not found' (debug text)
+  it('an unknown station slug shows the NotFound page, not the debug text', () => {
+    renderApp('/estacion/no-existe')
+    expectNotFound()
+    expect(screen.queryByText(/Station "no-existe" not found/)).not.toBeInTheDocument()
+  })
+
+  it('"Ver todas las estaciones" goes to the station list', async () => {
+    renderApp('/estacion/no-existe')
+    await userEvent.click(screen.getByRole('link', { name: /Ver todas las estaciones/ }))
+    expect(screen.getByRole('button', { name: new RegExp(first.name.es) })).toBeInTheDocument()
   })
 })

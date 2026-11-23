@@ -40,9 +40,11 @@ test('unknown route shows the NotFound page', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1, name: /no encontrada/i })).toBeVisible()
 })
 
-test.fixme('SW-007 / SW-042: unknown station slug shows the NotFound page', async ({ page }) => {
+test('SW-007: unknown station slug (old or mistyped QR) shows the NotFound page', async ({ page }) => {
   await page.goto('/estacion/no-existe')
-  await expect(page.getByRole('heading', { level: 1, name: /no encontrada/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Estación no encontrada' })).toBeVisible()
+  await expect(page.getByText('Station not found')).toBeVisible()
+  await expect(page.getByText(/Station "no-existe" not found/)).toHaveCount(0)
 })
 
 test.fixme('SW-013: "Siguiente" scrolls back to the top of the page', async ({ page }) => {
