@@ -5,10 +5,14 @@ import {
   cleanupOutdatedCaches,
   createHandlerBoundToURL,
   matchPrecache,
+  addPlugins,
+  getCacheKeyForURL,
 } from 'workbox-precaching'
 import { registerRoute, NavigationRoute } from 'workbox-routing'
 import { createPartialResponse } from 'workbox-range-requests'
-import { clientsClaim } from 'workbox-core'
+import { clientsClaim, cacheNames } from 'workbox-core'
+
+const PRECACHE_MANIFEST = self.__WB_MANIFEST
 
 // registerType: 'autoUpdate' → the new SW takes control without waiting.
 self.skipWaiting()
@@ -29,8 +33,39 @@ registerRoute(
   }
 )
 
+// Download progress for the OfflineBanner: every file stored in the precache
+// during install is reported to the open pages as { done, total }.
+let precachedCount = 0
+addPlugins([
+  {
+    cacheDidUpdate: async () => {
+      precachedCount++
+      const pages = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+      for (const page of pages) {
+        page.postMessage({ type: 'PRECACHE_PROGRESS', done: precachedCount, total: PRECACHE_MANIFEST.length })
+      }
+    },
+  },
+])
+
 // JS/CSS/HTML, audio and images from public/ (see globPatterns in vite.config.js)
-precacheAndRoute(self.__WB_MANIFEST)
+precacheAndRoute(PRECACHE_MANIFEST)
+
+// The page asks "is everything really in Cache Storage?" before telling the
+// visitor the tour works offline. Answers { total, cached }.
+self.addEventListener('message', (event) => {
+  if (event.data?.type !== 'GET_PRECACHE_STATUS') return
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(cacheNames.precache)
+      const stored = new Set((await cache.keys()).map((request) => request.url))
+      const cached = PRECACHE_MANIFEST.filter((entry) =>
+        stored.has(getCacheKeyForURL(typeof entry === 'string' ? entry : entry.url))
+      ).length
+      event.ports[0]?.postMessage({ total: PRECACHE_MANIFEST.length, cached })
+    })()
+  )
+})
 cleanupOutdatedCaches()
 
 // SPA: any navigation (/estacion/:slug, etc.) is answered with index.html,
