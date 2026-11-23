@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta name="theme-color" content="#4A6741" />
     <meta name="description" content="Recorrido autoguiado por el jardín botánico. Funciona sin internet." />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Jardín Botánico" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <!-- Browser-only: no web app manifest, no apple-mobile-web-app-capable (an iOS
+         home-screen web app gets its own storage, without the cached tour). -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <title>Jardín Botánico</title>
   </head>
   <body>

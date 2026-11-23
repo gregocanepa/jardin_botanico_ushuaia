@@ -26,7 +26,7 @@ src/
 public/
 ├── audio/            # .mp3 narration files (one per station)
 ├── images/           # Plant photos (naming: {slug}-1.jpg, {slug}-2.jpg)
-└── icons/            # Favicon / apple-touch-icon (install icons not needed for now)
+└── icons/            # apple-touch-icon.png (favicon.ico / favicon.svg live in public/ root)
 
 memory-bank/          # Persistent context for Claude Code sessions
 ```
@@ -63,6 +63,10 @@ memory-bank/          # Persistent context for Claude Code sessions
 }
 ```
 
+### Icons and manifest
+- `public/favicon.ico` (16/32/48), `public/favicon.svg`, `public/icons/apple-touch-icon.png` (180×180), linked from `index.html` — placeholder leaf until there is a garden logo
+- `manifest: false` in `vite.config.js`: no web app manifest while the app is browser-only. Don't add `apple-mobile-web-app-capable` either (an iOS home-screen web app has separate storage, without the cached tour)
+- `src/indexHtml.test.js` checks that every `<link href>` in `index.html` exists in `public/`
 ### Error handling
 - `ErrorBoundary` (`src/components/ErrorBoundary.jsx`) wraps the app: a render error shows a bilingual fallback ("Algo salió mal" + "Volver al recorrido" / "Recargar") instead of a blank screen
 - The routes have their own boundary keyed by pathname (navigating clears the error); `OfflineBanner` has one with `fallback={null}` so a broken overlay never blocks the tour
