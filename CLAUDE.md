@@ -72,6 +72,10 @@ memory-bank/          # Persistent context for Claude Code sessions
 - The routes have their own boundary keyed by pathname (navigating clears the error); `OfflineBanner` has one with `fallback={null}` so a broken overlay never blocks the tour
 - The fallback must not depend on the router or `LanguageContext` (they may be what broke) — plain `<a href="/">`, both languages
 
+### Translations
+- Translated fields (`name`, `shortDescription`, `description`, `facts`, `tags`, `audio`) are `{ es, en }`; `useStation.resolve()` falls back to Spanish when a translation is missing or empty (warns in dev), so a gap never crashes a page
+- The fallback is a runtime safety net only: `src/data/stations.test.js` still requires every field in both languages before deploy
+
 ### Routes
 - `/` → Home (station list + garden map)
 - `/estacion/:slug` → Individual station page

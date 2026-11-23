@@ -39,9 +39,7 @@
       "en": "/audio/orquideas-en.mp4"
     },
     "audioDuration": "2:34",
-    "images": [
-      "/images/orquideas.jpeg"
-    ],
+    "images": [],
     "links": [
       { "label": "Wikipedia — Orchidaceae", "url": "https://es.wikipedia.org/wiki/Orchidaceae" },
       { "label": "iNaturalist — observaciones", "url": "https://www.inaturalist.org/taxa/47217-Orchidaceae" }
@@ -87,9 +85,7 @@
       "en": "/audio/cactaceas-en.mp4"
     },
     "audioDuration": "2:10",
-    "images": [
-      "/images/cactaceas-1.jpg"
-    ],
+    "images": [],
     "links": [
       { "label": "Wikipedia — Cactaceae", "url": "https://es.wikipedia.org/wiki/Cactaceae" },
       { "label": "iNaturalist — observaciones", "url": "https://www.inaturalist.org/taxa/47855-Cactaceae" }
