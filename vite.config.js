@@ -8,53 +8,25 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
 
-      // Precachea archivos estáticos de public/ durante el build.
-      // Estos glob patterns se resuelven desde la carpeta public/.
+      // Service worker propio (src/sw.js) en lugar del generado.
+      // Hace falta para que el audio precacheado responda a range requests
+      // (seek offline y reproducción en iOS Safari). Ver src/sw.js.
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
+
       includeAssets: [
         'favicon.ico',
-        'icons/*.png',
-        'audio/*.mp4',
-        'images/*.{jpg,jpeg}',
-        'images/*.png',
-        'images/*.webp'
+        'icons/*.png'
       ],
 
-      workbox: {
-        // Archivos del build (JS/CSS/HTML) + archivos de public/
+      injectManifest: {
+        // Todo se precachea en la primera visita (offline en el jardín):
+        // archivos del build (JS/CSS/HTML) + audio e imágenes de public/.
         globPatterns: [
           '**/*.{js,css,html,ico,png,svg}',
           'audio/*.mp4',
           'images/*.{jpg,jpeg,png,webp}'
-        ],
-
-        runtimeCaching: [
-          {
-            // Audios: cache-first con soporte de range requests.
-            // El elemento <audio> usa range requests para el seek —
-            // sin rangeRequests: true, avanzar en la barra falla offline.
-            urlPattern: /\/audio\/.+\.(mp3|mp4)$/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'audio-cache',
-              rangeRequests: true,
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 365
-              }
-            }
-          },
-          {
-            // Imágenes: cache-first, sin necesidad de range requests
-            urlPattern: /\/images\/.+\.(jpg|jpeg|png|webp)$/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images-cache',
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 365
-              }
-            }
-          }
         ]
       },
 
