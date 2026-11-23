@@ -40,8 +40,7 @@
     },
     "audioDuration": "2:34",
     "images": [
-      "/assets/images/orquideas-1.jpg",
-      "/assets/images/orquideas-2.jpg"
+      "/images/orquideas.jpeg"
     ],
     "links": [
       { "label": "Wikipedia — Orchidaceae", "url": "https://es.wikipedia.org/wiki/Orchidaceae" },
@@ -89,7 +88,7 @@
     },
     "audioDuration": "2:10",
     "images": [
-      "/assets/images/cactaceas-1.jpg"
+      "/images/cactaceas-1.jpg"
     ],
     "links": [
       { "label": "Wikipedia — Cactaceae", "url": "https://es.wikipedia.org/wiki/Cactaceae" },
